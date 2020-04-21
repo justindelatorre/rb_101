@@ -5,10 +5,11 @@ Link to formal pseudo-code:
 https://www.notion.so/jaydelatorre/Lesson-2-Small-Programs-b1289a84a958411db13f9021e88339a1#85f306a9453d49118d313dc16b8666c3
 =end
 
+# TODO: Fix Rubocop errors.
+
 require 'pry'
 require 'yaml'
 MESSAGES = YAML.load_file("mortgage_calculator_messages.yml")
-
 
 def prompt(msg)
   Kernel.puts("=> #{msg}")
@@ -43,7 +44,7 @@ while keep_going == true
     loan_amount = Kernel.gets().chomp()
 
     break if number?(loan_amount) && positive?(loan_amount)
-    prompt(MESSAGES['invalid_num']) 
+    prompt(MESSAGES['invalid_num'])
   end
 
   apr = ''
@@ -67,17 +68,20 @@ while keep_going == true
     prompt(MESSAGES['invalid_num'])
   end
 
-  # Convert given values to monthly interest rate and 
+  # Convert given values to monthly interest rate and
   # months of loan duration
-  monthly_interest_rate = apr_converted / 12.0
+  monthly_rate = apr_converted / 12.0
   loan_duration_months = loan_duration_years.to_f() * 12.0
 
   # Calculate monthly payment based on given and
   # calculated values
-  monthly_payment = loan_amount.to_f() * (monthly_interest_rate / (1 - (1 + monthly_interest_rate)**(-loan_duration_months)))
+  monthly_payment =
+    loan_amount.to_f() *
+    (monthly_rate / (1 - (1 + monthly_rate)**(-loan_duration_months)))
 
   # Print monthly payment amount
-  prompt("Based on the provided information, the monthly payment is #{monthly_payment.round(2)}.")
+  prompt("Based on the provided information, the monthly payment is "\
+         "#{monthly_payment.round(2)}.")
 
   # Ask user if they would like to make another calculation
   prompt(MESSAGES['again'])
