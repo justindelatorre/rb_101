@@ -2,6 +2,9 @@
 https://launchschool.com/lessons/a0f3cd44/assignments/7add52d9
 =end
 
+require 'yaml'
+MESSAGES = YAML.load_file('calculator_messages.yml')
+
 def prompt(message)
 	Kernel.puts("=> #{message}")
 end
@@ -18,14 +21,14 @@ def number?(num)
 	integer?(num) || float?(num) 
 end
 
-prompt "Welcome to Calculator! Enter your name:"
+prompt MESSAGES['welcome'] 
 
 name = ''
 loop do
 	name = Kernel.gets().chomp()
 
 	if name.empty?()
-		prompt "Make sure to use a valid name."
+		prompt MESSAGES['valid_name'] 
 	else
 		break
 	end
@@ -54,24 +57,24 @@ prompt "Hi #{name}!"
 loop do # main loop
 	# Request two numbers from the user
 	loop do
-		prompt "Please provide a number:"
+		prompt MESSAGES['first_num'] 
 		num_1 = Kernel.gets().chomp()
 
 		if integer?(num_1)
 			break
 		else
-			prompt "Hmm... that doesn't look like a valid number."
+			prompt MESSAGES['invalid_num'] 
 		end
 	end
 
 	loop do
-		prompt "Please provide another number:"
+		prompt MESSAGES['second_num']
 		num_2 = Kernel.gets().chomp()
 
 		if integer?(num_2)
 			break
 		else
-			prompt "Hmm... that doesn't look like a valid number."
+			prompt MESSAGES['invalid_num'] 
 		end
 	end
 
@@ -92,7 +95,7 @@ loop do # main loop
 		if %w(add subtract multiply divide).include?(operation)
 			break
 		else
-			prompt "Must choose: add, subtract, multiply, divide."
+			prompt MESSAGES['invalid_op']
 		end
 	end
 
@@ -115,9 +118,9 @@ loop do # main loop
 
 	prompt "The result is #{result}."
 
-	prompt "Do you want to perform another calculation? (Y/N)"
+	prompt MESSAGES['again'] 
 	answer = Kernel.gets().chomp()
 	break unless answer.downcase().start_with?('y')
 end
 
-prompt "Thank you for using Calculator. Goodbye!"
+prompt MESSAGES['goodbye'] 
