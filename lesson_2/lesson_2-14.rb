@@ -1,13 +1,21 @@
 =begin
-https://launchschool.com/lessons/a0f3cd44/assignments/fcd8a299
+https://launchschool.com/lessons/a0f3cd44/assignments/7add52d9
 =end
 
 def prompt(message)
 	Kernel.puts("=> #{message}")
 end
 
-def valid_number?(num)
-	num.to_i() != 0
+def integer?(num)
+  num.to_i().to_s() == num
+end
+
+def float?(num)
+  num.to_f().to_s() == num
+end
+
+def number?(num)
+	integer?(num) || float?(num) 
 end
 
 prompt "Welcome to Calculator! Enter your name:"
@@ -24,16 +32,18 @@ loop do
 end
 
 def operation_to_message(op)
-	case op
-	when 'add'
-		'Adding'
-	when 'subtract'
-		'Subtracting'
-	when 'multiply'
-		'Multiplying'
-	when 'divide'
-		'Dividing' 
-	end 
+	word = case op
+         when 'add'
+           'Adding'
+         when 'subtract'
+           'Subtracting'
+         when 'multiply'
+           'Multiplying'
+         when 'divide'
+           'Dividing' 
+         end 
+
+  word
 end
 
 num_1 = ''
@@ -47,7 +57,7 @@ loop do # main loop
 		prompt "Please provide a number:"
 		num_1 = Kernel.gets().chomp()
 
-		if valid_number?(num_1)
+		if integer?(num_1)
 			break
 		else
 			prompt "Hmm... that doesn't look like a valid number."
@@ -58,7 +68,7 @@ loop do # main loop
 		prompt "Please provide another number:"
 		num_2 = Kernel.gets().chomp()
 
-		if valid_number?(num_2)
+		if integer?(num_2)
 			break
 		else
 			prompt "Hmm... that doesn't look like a valid number."
