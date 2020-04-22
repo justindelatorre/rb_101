@@ -1,8 +1,11 @@
 
 welcome: "Welcome to the Mortgage Calculator!"
 loan_amount: "Please enter the full loan amount:"
-invalid_num: "Please enter a positive number."
-apr: "Please enter the Annual Percentage Rate (APR):"
+invalid_loan_amount: "Please enter a positive number (e.g 150000)."
+apr: "Please enter the Annual Percentage Rate (APR) as a decimal (2.0):"
+invalid_apr: "Please enter a positive, decimal number (e.g. 2.0)."
 loan_duration: "Please enter the loan duration in years:"
+invalid_loan_duration: "Please enter a positive, whole number."
 again: "Would you like to calculate another monthly payment?"
+invalid_answer: "Invalid choice. Please select either Y or N."
 goodbye: "Thank you for using the Mortgage Calculator! Goodbye!"
