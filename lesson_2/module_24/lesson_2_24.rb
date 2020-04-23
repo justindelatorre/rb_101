@@ -3,6 +3,9 @@ Link to exercise:
 https://launchschool.com/lessons/a0f3cd44/assignments/4f8be124
 =end
 
+require 'yaml'
+MESSAGES = YAML.load_file('rpxls_messages.yml')
+
 VALID_CHOICES = {
   'r' => 'rock',
   'p' => 'paper',
@@ -25,7 +28,7 @@ WIN_CONDITIONS = {
   'l' => ['s', 'p'],
   's' => ['r', 'x']
 }
-WIN_TOTAL = 3
+WIN_TOTAL = 5
 
 def prompt(msg)
   Kernel.puts("=> #{msg}")
@@ -33,30 +36,30 @@ end
 
 def win?(first, second)
   WIN_CONDITIONS[first] && WIN_CONDITIONS[first].include?(second)
-end 
+end
 
-def get_choice
+def input_choice
   prompt(CHOICES_PROMPT)
-  choice = Kernel.gets().chomp()
+  Kernel.gets().chomp()
 end
 
 def display_result(player, computer)
   if win?(player, computer)
-    prompt("You won!")
+    prompt(MESSAGES['you_win'])
   elsif win?(computer, player)
-    prompt("Computer won!")
+    prompt(MESSAGES['computer_win'])
   else
-    prompt("It's a tie!")
+    prompt(MESSAGES['tie'])
   end
 end
 
 def declare_winner(player_count, computer_count)
   if player_count == WIN_TOTAL
-    prompt("You're the grand winner!")
+    prompt(MESSAGES['you_grand_win'])
   elsif computer_count == WIN_TOTAL
-    prompt("Better luck next time!")
+    prompt(MESSAGES['computer_grand_win'])
   else
-    prompt("No grand winner this time!")
+    prompt(MESSAGES['no_grand_win'])
   end
 end
 
@@ -66,13 +69,12 @@ computer_wins = 0
 loop do
   choice = ''
   loop do
-    # Get choice from user
-    choice = get_choice
+    choice = input_choice
 
     if VALID_CHOICES.include?(choice)
       break
     else
-      prompt("That's not a valid choice.")
+      prompt(MESSAGES['invalid_choice'])
     end
   end
 
@@ -93,9 +95,15 @@ loop do
 
   break if player_wins == WIN_TOTAL || computer_wins == WIN_TOTAL
 
-  prompt("Do you want to play again?")
-  answer = Kernel.gets().chomp()
-  
+  answer = ''
+  loop do
+    prompt(MESSAGES['again'])
+    answer = Kernel.gets().chomp()
+
+    break if answer.downcase() == 'y' || answer.downcase() == 'n'
+    prompt(MESSAGES['invalid_choice'])
+  end
+
   if answer.downcase().start_with?('y')
     Kernel.system('clear') || Kernel.system('cls')
   end
@@ -104,4 +112,4 @@ end
 
 declare_winner(player_wins, computer_wins)
 
-prompt("Thank you for playing. Goodbye!")
+prompt(MESSAGES['goodbye'])

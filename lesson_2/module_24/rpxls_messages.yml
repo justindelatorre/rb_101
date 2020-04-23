@@ -1,9 +1,10 @@
 
 you_win: "You won!"
-computer_wins: "Computer won!"
+computer_win: "Computer won!"
 tie: "It's a tie!"
 you_grand_win: "You're the grand winner!"
 computer_grand_win: "Better luck next time!"
 no_grand_win: "No grand winner this time!"
 invalid_choice: "That's not a valid choice."
+again: "Do you want to play again? (y/n)"
 goodbye: "Thank you for playing. Goodbye!"
