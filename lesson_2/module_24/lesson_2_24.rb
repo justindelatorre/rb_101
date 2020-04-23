@@ -40,7 +40,7 @@ end
 
 def input_choice
   prompt(CHOICES_PROMPT)
-  Kernel.gets().chomp()
+  Kernel.gets().chomp().downcase()
 end
 
 def display_result(player, computer)
