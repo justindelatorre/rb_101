@@ -39,18 +39,59 @@ def win?(first, second)
 end
 
 def input_choice
-  prompt(CHOICES_PROMPT)
-  Kernel.gets().chomp().downcase()
+  choice = ''
+
+  loop do
+    prompt(CHOICES_PROMPT)
+    choice = Kernel.gets().chomp().downcase()
+
+    if VALID_CHOICES.include?(choice)
+      break
+    else
+      prompt(MESSAGES['invalid_choice'])
+    end
+  end
+
+  choice
 end
 
-def display_result(player, computer)
+def show_choices(player, computer)
+  prompt("You chose: #{VALID_CHOICES[player]}; "\
+         "Computer chose: #{VALID_CHOICES[computer]}")
+end
+
+def determine_winner(player, computer)
   if win?(player, computer)
-    prompt(MESSAGES['you_win'])
+    'player'
   elsif win?(computer, player)
+    'computer'
+  else
+    'tie'
+  end
+end
+
+def display_result(winner)
+  if winner == 'player'
+    prompt(MESSAGES['you_win'])
+  elsif winner == 'computer'
     prompt(MESSAGES['computer_win'])
   else
     prompt(MESSAGES['tie'])
   end
+end
+
+def increment_wins(winner, player_count, computer_count)
+  if winner == 'player'
+    return player_count.next, computer_count
+  elsif winner == 'computer'
+    return player_count, computer_count.next
+  else
+    return player_count, computer_count
+  end
+end
+
+def show_wins(player_count, computer_count)
+  prompt("You: #{player_count}; Computer: #{computer_count}")
 end
 
 def declare_winner(player_count, computer_count)
@@ -63,51 +104,48 @@ def declare_winner(player_count, computer_count)
   end
 end
 
-player_wins = 0
-computer_wins = 0
-
-loop do
-  choice = ''
-  loop do
-    choice = input_choice
-
-    if VALID_CHOICES.include?(choice)
-      break
-    else
-      prompt(MESSAGES['invalid_choice'])
-    end
-  end
-
-  computer_choice = VALID_CHOICES.keys.sample()
-
-  prompt("You chose: #{VALID_CHOICES[choice]}; "\
-         "Computer chose: #{VALID_CHOICES[computer_choice]}")
-
-  display_result(choice, computer_choice)
-
-  if win?(choice, computer_choice)
-    player_wins += 1
-  elsif win?(computer_choice, choice)
-    computer_wins += 1
-  end
-
-  prompt("You: #{player_wins}; Computer: #{computer_wins}")
-
-  break if player_wins == WIN_TOTAL || computer_wins == WIN_TOTAL
-
-  answer = ''
+def collect_play_again_answer
+  input = ''
   loop do
     prompt(MESSAGES['again'])
-    answer = Kernel.gets().chomp()
+    input = Kernel.gets().chomp()
 
-    break if answer.downcase() == 'y' || answer.downcase() == 'n'
+    break if input.downcase() == 'y' || input.downcase() == 'n'
     prompt(MESSAGES['invalid_choice'])
   end
 
-  if answer.downcase().start_with?('y')
-    Kernel.system('clear') || Kernel.system('cls')
-  end
-  break unless answer.downcase().start_with?('y')
+  input
+end
+
+player_wins = 0
+computer_wins = 0
+
+# Main loop
+loop do
+  choice = input_choice
+
+  computer_choice = VALID_CHOICES.keys.sample()
+
+  Kernel.system('clear') || Kernel.system('cls')
+
+  show_choices(choice, computer_choice)
+
+  winner_str = determine_winner(choice, computer_choice)
+
+  display_result(winner_str)
+
+  player_wins, computer_wins = increment_wins(winner_str, player_wins,
+                                              computer_wins)
+
+  show_wins(player_wins, computer_wins)
+
+  break if player_wins == WIN_TOTAL || computer_wins == WIN_TOTAL
+
+  answer = collect_play_again_answer
+
+  Kernel.system('clear') || Kernel.system('cls') if answer == 'y'
+
+  break unless answer == 'y'
 end
 
 declare_winner(player_wins, computer_wins)
