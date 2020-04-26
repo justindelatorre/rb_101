@@ -9,12 +9,10 @@ def multiply(a, b)
 end
 
 def exponential(base, power)
-  if power == 1
-    multiply(base, power)
-  elsif power == 2
-    multiply(base, base)
+  if power == 0
+    1
   else
-    multiply(multiply(base, power - 1), multiply(base, power - 2))
+    multiply(base, exponential(base, power - 1))
   end
 end
 
