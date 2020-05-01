@@ -7,7 +7,8 @@ We simply took the contents of the block from the previous practice problem and
 moved it to a method, to which we are passing all of our outer variables.
 
 Predict how the values and object ids will change throughout the flow of the code
-below:
+below.
+
 =end
 
 def fun_with_ids
@@ -27,6 +28,9 @@ def fun_with_ids
   puts "d_outer is #{d_outer} with an id of: #{d_outer_id} before the block."
   puts
 
+  # Doing all of this via a method rather than a loop means that any
+  # re-assignment that happens in the method stays in the method, rather than
+  # passing through to the outer scope.
   an_illustrative_method(a_outer, b_outer, c_outer, d_outer, a_outer_id, b_outer_id, c_outer_id, d_outer_id)
 
 
