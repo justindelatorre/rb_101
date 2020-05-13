@@ -74,8 +74,8 @@ def determine_first_mover(selection)
     loop do
       # TODO: Break prompt arguments out into a separate YAML.
       prompt('Select who will move first: player or computer.')
-      plyr = gets.chomp.downcase
-      break if plyr == 'player' || plyr == 'computer'
+      first = gets.chomp.downcase
+      break if first == 'player' || first == 'computer'
       prompt("That's not a valid choice. Please try again.")
     end
   end
@@ -93,6 +93,7 @@ end
 
 def player_places_piece!(brd)
   square = ''
+
   loop do
     prompt("Choose a square: #{joinor(empty_squares(brd))}:")
     square = gets.chomp.to_i
@@ -104,8 +105,6 @@ def player_places_piece!(brd)
 end
 
 def computer_places_piece!(brd)
-  square = nil
-
   square = 5 if brd[5] == INITIAL_MARKER
 
   if !square
