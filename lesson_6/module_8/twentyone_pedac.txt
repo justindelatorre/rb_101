@@ -25,11 +25,8 @@
   - "You have: #{card} and #{card}"
 
 === DATA STRUCTURE ===
-- deck: hash, with array as key, integer as value
-  - array key will contain [suit, value]
-  - value will correspond to integer value
-    - ace cards will need an array value (i.e. [1, 11]) to represent 2
-      value possibilities
+- deck: nested array
+  - element arrays will consist of suit and value elements
 - hand: array
 - score: integer
 
