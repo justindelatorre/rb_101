@@ -1,8 +1,8 @@
 === INPUTS ===
-
+- Player decision in the form of a string
 
 === OUTPUTS ===
-
+- Values printed to the console
 
 === REQUIREMENTS ===
 - 52 card deck:
