@@ -9,8 +9,6 @@ BUST_LIMIT = 21
 DEALER_LIMIT = 17
 WINS = 5
 
-require 'pry'
-
 require 'yaml'
 MESSAGES = YAML.load_file('twentyone.yml')
 
