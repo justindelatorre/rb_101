@@ -1,0 +1,58 @@
+=== INPUTS ===
+- Player decision in the form of a string
+
+=== OUTPUTS ===
+- Values printed to the console
+
+=== REQUIREMENTS ===
+- 52 card deck:
+  - 4 suits (hearts, diamonds, clubs, spades)
+  - 13 values (ace to king)
+    - 2-10: face value
+    - jack, queen, king: 10
+    - ace: can either be 1 or 11 depending on hand value
+- Goal: Get as close to 21 as possible without going over ("busting")
+- 2 participants: player and dealer
+- 2-card hands are dealt to both player and dealer
+- Turn order:
+  - Player takes a turn, then cedes to dealer if player doesn't bust
+    - Player may choose to hit (get another card) as many times as desired,
+      or stay and cede the turn to the dealer
+  - Dealer takes a turn and must hit until it reaches 17 or more
+- If neither busts, then final hand count is compared
+- Console must display dealer hand first, then player hand
+  - "Dealer has: #{card} and unknown card"
+  - "You have: #{card} and #{card}"
+
+=== DATA STRUCTURE ===
+- deck: nested array
+  - element arrays will consist of suit and value elements
+- hand: array
+- score: integer
+
+=== ALGORITHM ===
+Casual Pseudo-code (provided):
+1. Initialize deck
+2. Deal cards to player and dealer
+3. Player turn: hit or stay
+  - repeat until bust or "stay"
+4. If player bust, dealer wins.
+5. Dealer turn: hit or stay
+  - repeat until total >= 17
+6. If dealer bust, player wins.
+7. Compare cards and declare winner.
+
+Formal Pseudo-code:
+1. START
+2. SET initial deck
+3. SET player hand and dealer hand
+4. WHILE player hand is <= 21 or player continues to hit
+  A. GET decision to hit or stay
+  B. Calculate player hand score. If player busts, dealer wins.
+5. WHILE dealer hand is <= 17
+  A. Add a card to dealer's hand.
+  B. Calculate dealer hand score. If dealer busts, player wins.
+6. Compare hands and declare winner.
+
+Link to flowchart:
+

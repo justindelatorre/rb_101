@@ -1,0 +1,15 @@
+
+player_match_win: 'Congratulations - you won!'
+dealer_match_win: "Unfortunately, you've lost."
+match_tie: "It's a tie."
+play_again: 'Do you want to play again? (y or n)'
+player_grand_win: "Congratulations - you're the grand winner!"
+dealer_grand_win: 'Sorry - the dealer is the grand winner.'
+welcome: 'Welcome to Twenty One!'
+hit_or_stay: 'Will you (h)it or (s)tay?'
+invalid_hit_or_stay: "Sorry. Please enter an 'h' or 's'."
+player_hit: 'You chose to hit!'
+player_bust: 'You busted. You lose.'
+dealer_hit: 'Dealer hits!'
+dealer_bust: 'Dealer busted. You win.'
+goodbye: 'Thanks for playing Twenty One. Goodbye!'
