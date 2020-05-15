@@ -7,7 +7,7 @@ VALUES = %w(ace 2 3 4 5 6 7 8 9 10 jack queen king)
 DIVIDER = '=' * 50
 BUST_LIMIT = 21
 DEALER_LIMIT = 17
-WINS = 3
+WINS = 5
 
 require 'pry'
 
@@ -210,8 +210,6 @@ loop do
   else
     prompt("You stay at #{player_score}!")
   end
-
-  puts DIVIDER
 
   # Dealer's Turn
   while dealer_score < DEALER_LIMIT

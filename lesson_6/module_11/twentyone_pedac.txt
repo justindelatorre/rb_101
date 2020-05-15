@@ -46,13 +46,11 @@ Formal Pseudo-code:
 1. START
 2. SET initial deck
 3. SET player hand and dealer hand
-4. WHILE player hand is <= 21 or player continues to hit
+4. WHILE player hand is < 21 or player continues to hit
   A. GET decision to hit or stay
   B. Calculate player hand score. If player busts, dealer wins.
-5. WHILE dealer hand is <= 17
+5. WHILE dealer hand is < 17
   A. Add a card to dealer's hand.
   B. Calculate dealer hand score. If dealer busts, player wins.
 6. Compare hands and declare winner.
-
-Link to flowchart:
-
+7. END
