@@ -9,6 +9,8 @@ BUST_LIMIT = 21
 DEALER_LIMIT = 17
 WINS = 3
 
+require 'pry'
+
 require 'yaml'
 MESSAGES = YAML.load_file('twentyone.yml')
 
@@ -62,6 +64,28 @@ def display_initial_hands(player, dealer)
   prompt("You have: #{player[0][1].capitalize} and #{player[1][1].capitalize}")
 end
 
+def player_hit_or_stay
+  answer = ''
+
+  loop do
+    puts DIVIDER
+    prompt(MESSAGES['hit_or_stay'])
+    answer = gets.chomp.downcase
+    break if ['h', 's'].include?(answer)
+    prompt(MESSAGES['invalid_hit_or_stay'])
+  end
+
+  answer
+end
+
+def print_hit(current_player, hand, score)
+  puts DIVIDER
+  prompt(MESSAGES["#{current_player}_hit"])
+  current_player_text = current_player == 'player' ? 'You' : 'Dealer'
+  prompt("#{current_player_text} cards are now: #{display_cards(hand)}")
+  prompt("#{current_player_text} total is now: #{score}")
+end
+
 def display_cards(hand)
   str = ''
 
@@ -106,6 +130,11 @@ def count_wins(winner_str, player, dealer)
   end
 
   return player, dealer
+end
+
+def print_bust(current, plyr, dlr)
+  prompt(MESSAGES["#{current}_bust"])
+  print_games_won(plyr, dlr)
 end
 
 def print_winner(winner_str)
@@ -159,57 +188,45 @@ loop do
 
   # Player's Turn
   loop do
-    answer = nil
-
-    loop do
-      puts DIVIDER
-      prompt(MESSAGES['hit_or_stay'])
-      answer = gets.chomp.downcase
-      break if ['h', 's'].include?(answer)
-      prompt(MESSAGES['invalid_hit_or_stay'])
-    end
+    answer = player_hit_or_stay
 
     if answer == 'h'
       player_hand << deck.pop
       player_score = total(player_hand)
-      puts DIVIDER
-      prompt(MESSAGES['player_hit'])
-      prompt("Your cards are now: #{display_cards(player_hand)}")
-      prompt("Your total is now: #{player_score}")
+
+      print_hit('player', player_hand, player_score)
     end
 
     break if busted?(player_score) || answer == 's'
   end
 
-  print_results(dealer_hand, dealer_score, player_hand, player_score)
-
   if busted?(player_score)
-    player_wins, dealer_wins = count_wins('dealer', player_wins, dealer_wins) 
-    prompt(MESSAGES['player_bust'])
-    print_games_won(player_wins, dealer_wins)
+    player_wins, dealer_wins = count_wins('dealer', player_wins, dealer_wins)
+
+    print_bust('player', player_wins, dealer_wins)
+
+    break if player_wins == WINS || dealer_wins == WINS
     play_again? ? next : break
   else
-    prompt("You chose to stay at #{player_score}!")
+    prompt("You stay at #{player_score}!")
   end
 
   puts DIVIDER
+
   # Dealer's Turn
-  loop do
-    dealer_score = total(dealer_hand)
-    break if dealer_score >= DEALER_LIMIT
-
-    prompt(MESSAGES['dealer_hit'])
+  while dealer_score < DEALER_LIMIT
     dealer_hand << deck.pop
+    dealer_score = total(dealer_hand)
 
-    prompt("Dealer's cards are now: #{display_cards(dealer_hand)}")
+    print_hit('dealer', dealer_hand, dealer_score)
   end
 
-  print_results(dealer_hand, dealer_score, player_hand, player_score)
-
   if busted?(dealer_score)
-    player_wins, dealer_wins = count_wins('player', player_wins, dealer_wins) 
-    prompt(MESSAGES['dealer_bust'])
-    print_games_won(player_wins, dealer_wins)
+    player_wins, dealer_wins = count_wins('player', player_wins, dealer_wins)
+
+    print_bust('dealer', player_wins, dealer_wins)
+
+    break if player_wins == WINS || dealer_wins == WINS
     play_again? ? next : break
   else
     prompt("Dealer stays at #{dealer_score}")
@@ -225,7 +242,8 @@ loop do
 
   print_games_won(player_wins, dealer_wins)
 
-  break unless play_again?
+  break if player_wins == WINS || dealer_wins == WINS
+  play_again? ? next : break
 end
 
 print_grand_winner(player_wins, dealer_wins)
