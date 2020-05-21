@@ -43,8 +43,6 @@ rotate_rightmost_digits(735291, 5) == 752913
 rotate_rightmost_digits(735291, 6) == 352917
 =end
 
-require 'pry'
-
 def rotate_array(arr)
   rotated_arr = []
   counter = 1
