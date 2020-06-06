@@ -59,28 +59,18 @@ featured(999_999_987) == 1_023_456_987
 featured(9_999_999_999) # -> There is no possible number that fulfills those requirements
 =end
 
-def is_featured?(num)
-  digits_arr = num.to_s.chars
-
-  are_digits_unique = digits_arr.all? { |digit| digits_arr.count(digit) == 1 }
-
-  num.odd? && (num % 7).zero? && are_digits_unique
-end
-
-def featured(num)
-  counter = num
+def featured(number)
+  number += 1
+  number += 1 until number.odd? && number % 7 == 0
 
   loop do
-    break if is_featured?(counter)
-
-    if (counter % 7).zero?
-      counter += 7
-    else
-      counter += 1
-    end
+    number_chars = number.to_s.split('')
+    return number if number_chars.uniq == number_chars
+    number += 14
+    break if number >= 9_876_543_210
   end
 
-  counter
+  'There is no possible number that fulfills those requirements.'
 end
 
 p featured(12) == 21
